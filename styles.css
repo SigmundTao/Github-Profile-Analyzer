@@ -1,0 +1,42 @@
+* {
+    box-sizing: border-box;
+}
+
+#output {
+    border: 1px solid black;
+    height: 50vh;
+}
+
+.card-holder {
+    border: 1px solid red;
+    height: 50%;
+}
+
+.profile-picture {
+    height: 100px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    border: 1px solid black;
+}
+
+.username::before {
+    content: '@';
+}
+
+.repo-card-holder {
+    border: 1px solid blue;
+    height: 50%;
+}
+
+.repo-card {
+    border: 1px solid greenyellow;
+    height: 33%;
+    width: 50%;
+}
+
+.repo-card:hover {
+    cursor: pointer;
+}
