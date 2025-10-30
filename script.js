@@ -1,6 +1,18 @@
 const main = document.getElementById('main');
 const baseURL = 'https://api.github.com';
+const colorsURL = 'https://raw.githubusercontent.com/ozh/github-colors/master/colors.json';
 let repoIndex = 0;
+
+let colors;
+
+async function getGithubColors() {
+    const response = await fetch(colorsURL);
+    const colorData = await response.json();
+
+    colors = colorData;
+    console.log('colors-data:',colorData);
+    console.log('colors var:',colors);
+}
 
 function createRepoPages(repoData, index, container){
     container.innerHTML = '';
@@ -68,15 +80,38 @@ function createRepoPages(repoData, index, container){
 
         const repoLanguage = document.createElement('div');
         repoLanguage.classList.add('repo-language');
-        repoLanguage.innerText = object.language;
+        const language = object.language || null;
+        repoLanguage.innerText = language;
+
+        const colorCircle = document.createElement('div');
+        colorCircle.classList.add('color-circle');
+        colorCircle.id = object.id;
+        if(language && colors[language]){
+            colorCircle.style.backgroundColor = colors[language].color;
+        } else {
+            colorCircle.style.display = 'none';
+        }
+
+        const languageHolder = document.createElement('div');
+        languageHolder.classList.add('language-holder');
+        languageHolder.appendChild(colorCircle);
+        languageHolder.appendChild(repoLanguage);
 
         const repoStars = document.createElement('div');
         repoStars.classList.add('repo-stars');
-        repoStars.innerText = object.stargazers_count;
+        const starCount = document.createElement('div');
+        starCount.innerText = object.stargazers_count;
+
+        const starLogo = document.createElement('div');
+        starLogo.style.backgroundImage = `url('./star.svg')`;
+        starLogo.classList.add('star-logo');
+
+        repoStars.appendChild(starLogo);
+        repoStars.appendChild(starCount);
 
         repo.appendChild(repoTitle);
         repo.appendChild(repoDate);
-        repo.appendChild(repoLanguage);
+        repo.appendChild(languageHolder);
         repo.appendChild(repoStars);
 
         repoHolder.appendChild(repo);
@@ -266,6 +301,7 @@ function loadSearchScreen(){
 }
 
 loadSearchScreen();
+getGithubColors();
 
 // Base URL for all GitHub API requests
 

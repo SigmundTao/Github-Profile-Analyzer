@@ -203,6 +203,35 @@ body {
     align-items: center;
 }
 
+.language-holder {
+    width: 50%;
+    height: 15%;
+    display: flex;
+    gap: 3px;
+    border: 1px solid red;
+}
+
+.color-circle {
+    height: 100%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+}
+
+.repo-stars {
+    height: 15%;
+    border: 1px solid blue;
+    width: 50%;
+    display: flex;
+    gap:  3px;
+}
+
+.star-logo {
+    height: 100%;
+    aspect-ratio: 1;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
 
 /* Search Screen */
 .search-page {
