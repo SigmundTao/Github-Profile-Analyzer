@@ -1,5 +1,100 @@
 const main = document.getElementById('main');
 const baseURL = 'https://api.github.com';
+let repoIndex = 0;
+
+function createRepoPages(repoData, index, container){
+    container.innerHTML = '';
+
+    const lastPageBtnHolder = document.createElement('div');
+    lastPageBtnHolder.classList.add('last-page-btn-holder');
+
+    const lastPageBtn = document.createElement('button');
+    lastPageBtn.classList.add('page-btn');
+    lastPageBtn.classList.add('last-page-btn');
+    lastPageBtn.innerText = '<';
+
+    if(index === 0){
+        lastPageBtn.style.display = 'none';
+    }
+
+    lastPageBtn.addEventListener('click', () => {
+        index -= 6;
+        createRepoPages(repoData, index, container);
+    })
+
+    lastPageBtnHolder.appendChild(lastPageBtn);
+
+    const nextPageBtnHolder = document.createElement('div');
+    nextPageBtnHolder.classList.add('next-page-btn-holder');
+
+    const nextPageBtn = document.createElement('button');
+    nextPageBtn.classList.add('page-btn');
+    nextPageBtn.classList.add('next-page-btn');
+    nextPageBtn.innerText = '>';
+
+    if(index >= repoData.length - 6){
+        nextPageBtn.style.display = 'none';
+    }
+
+    nextPageBtn.addEventListener('click', () => {
+        index += 6;
+        createRepoPages(repoData, index, container);
+    })
+
+    nextPageBtnHolder.appendChild(nextPageBtn);
+
+
+    const repoHolder = document.createElement('div');
+    repoHolder.classList.add('repo-holder');
+
+    const endIndex = Math.min(index + 6, repoData.length);
+    for(let i = index; i < endIndex; i++){
+        const object = repoData[i];
+
+        const repo = document.createElement('div');
+        repo.classList.add('repo');
+
+        repo.addEventListener('click', () => {
+            openPage(object.html_url);
+        })
+
+        const repoTitle = document.createElement('div');
+        repoTitle.classList.add('repo-title');
+        repoTitle.innerText = object.name;
+
+        const repoDate = document.createElement('div');
+        repoDate.classList.add('repo-date');
+        repoDate.innerText = changeDateFormat(object.created_at);
+
+        const repoLanguage = document.createElement('div');
+        repoLanguage.classList.add('repo-language');
+        repoLanguage.innerText = object.language;
+
+        const repoStars = document.createElement('div');
+        repoStars.classList.add('repo-stars');
+        repoStars.innerText = object.stargazers_count;
+
+        repo.appendChild(repoTitle);
+        repo.appendChild(repoDate);
+        repo.appendChild(repoLanguage);
+        repo.appendChild(repoStars);
+
+        repoHolder.appendChild(repo);
+    }
+
+
+    container.appendChild(lastPageBtnHolder);
+    container.appendChild(repoHolder);
+    container.appendChild(nextPageBtnHolder);
+}
+
+function changeDateFormat(date){
+    const splitDate = date.split('T')[0].split('-');
+
+    const finalDate = `${splitDate[2]}/${splitDate[1]}/${splitDate[0]}`
+
+    return finalDate;
+}
 
 async function fetchUser(username){
     try {
@@ -118,41 +213,16 @@ function createUserPage(userData, repoData){
     const isSiteAdmin = userData.site_admin;
     const company = userData.company;
 
-    main.appendChild(cardHolder);
+    userPage.appendChild(cardHolder);
 
     //repos
-    const repoCardHolder = document.createElement('div');
-    repoCardHolder.classList.add('repo-card-holder');
-    repoCardHolder.classList.add('user-page-seciton');
-
-    repoData.forEach(repo => {
-        const link = repo.html_url;
-
-        const repoCard = document.createElement('div');
-        repoCard.classList.add('repo-card');
-
-        const repoTitle = document.createElement('div');
-        repoTitle.classList.add('repo-title');
-        repoTitle.innerText = repo.name;
-        repoTitle.addEventListener('click', () => {openPage(link)})
-
-        const repoCreation = document.createElement('div');
-        repoCreation.classList.add('repo-creation-date');
-        repoCreation.innerText = repoData.created_at;
-
-        const repoLanguage = document.createElement('div');
-        repoLanguage.classList.add('repo-language');
-        repoLanguage.innerText = repo.language;
-
-        repoCard.appendChild(repoTitle);
-        repoCard.appendChild(repoCreation);
-        repoCard.appendChild(repoLanguage);
-
-        repoCardHolder.appendChild(repoCard);
-    });
-
     userPage.appendChild(cardHolder);
-    userPage.appendChild(repoCardHolder);
+
+    const repoPages = document.createElement('div');
+    repoPages.classList.add('repo-pages');
+    createRepoPages(repoData, repoIndex, repoPages);
+
+    userPage.appendChild(repoPages);
 
     main.appendChild(userPage);
 }
