@@ -14,6 +14,73 @@ async function getGithubColors() {
     console.log('colors var:',colors);
 }
 
+function formatRepoData(data){
+    const newData = {};
+    data.forEach(e => {
+        if(e.language === null){
+
+        } else {
+            if(e.language in newData){
+                newData[e.language]++;
+            } else {
+                newData[e.language] = 1;
+            }
+        }
+        
+    });
+
+    console.log(newData);
+    return newData;
+}
+
+function makePieChart(languageData, chartContainer){
+    const labels = Object.keys(languageData);
+    const values = Object.values(languageData);
+
+    const backgroundColors = labels.map(lang => colors[lang]?.color || '#808080');
+
+    const canvas = document.createElement('canvas');
+    canvas.id = 'doughnut-graph';
+
+    chartContainer.appendChild(canvas)
+
+    const ctx = canvas.getContext('2d');
+    const languageChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Repositories',
+                data: values,
+                backgroundColor: backgroundColors,
+                borderWidth: 2,
+                borderColor: '#fff'
+            }]
+        },
+        options: {
+            'repsonsive': true,
+            'maintainAspectRatio': true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const label = context.label || '';
+                            const value = context.parsed || 0;
+                            const total = context.dataset.data.reduce((a, b) => a+b, 0);
+                            const percentage = ((value/total) * 100).toFixed(1);
+                            return `${label}: ${value} repos (${percentage}%)`;
+                        }
+                    }
+                }
+            }
+        }
+    })
+}
+
 function createRepoPages(repoData, index, container){
     container.innerHTML = '';
 
@@ -121,6 +188,8 @@ function createRepoPages(repoData, index, container){
     container.appendChild(lastPageBtnHolder);
     container.appendChild(repoHolder);
     container.appendChild(nextPageBtnHolder);
+
+    formatRepoData(repoData);
 }
 
 function changeDateFormat(date){
@@ -142,10 +211,12 @@ async function fetchUser(username){
         const userData = await userResponse.json();
         const repoData = await repoResponse.json();
 
+        const languageData = formatRepoData(repoData);
+
         console.log('user data:', userData);
         console.log('repo data:', repoData);
 
-        createUserPage(userData, repoData);
+        createUserPage(userData, repoData, languageData);
     } catch (error){
         console.log(error)
     };
@@ -156,7 +227,7 @@ function openPage(url){
 }
 
 //User search results
-function createUserPage(userData, repoData){
+function createUserPage(userData, repoData, languageData){
     main.innerHTML = '';
     //user
     const userPage = document.createElement('div');
@@ -231,13 +302,56 @@ function createUserPage(userData, repoData){
     bioHolder.classList.add('user-bio');
     bioHolder.innerText = userData.bio;
 
+    const totalsHolder = document.createElement('div');
+    totalsHolder.classList.add('totals-holder');
+
+    const totals = [];
+
+    const totalRepos = userData.public_repos;
+    let totalForks = 0;
+    let totalstars = 0;
+
+    repoData.forEach(r => {
+        totalstars += r.stargazers_count;
+        totalForks += r.forks_count;
+    });
+
+    totals.push([totalRepos, `url('./repo.svg')`]);
+    totals.push([totalstars, `url('./star.svg')`]);
+    totals.push([totalForks, `url('./fork.svg')`]);
+
+    totals.forEach(item => {
+        const itemCard = document.createElement('div');
+        itemCard.classList.add('total-card');
+
+        const logo = document.createElement('div');
+        logo.style.backgroundImage = item[1];
+        logo.classList.add('total-logo');
+
+        const title = document.createElement('div');
+        title.innerText = item[0];
+        title.classList.add('total-title');
+
+        itemCard.appendChild(logo);
+        itemCard.appendChild(title);
+
+        totalsHolder.appendChild(itemCard)
+    })
+
     const backBtn = document.createElement('button');
     backBtn.classList.add('back-btn');
     backBtn.addEventListener('click', loadSearchScreen);
     backBtn.innerText = 'Back'
 
+    const chartContainer = document.createElement('div');
+    chartContainer.classList.add('chart-container');
+
+    makePieChart(languageData, chartContainer);
+
     cardHolder.appendChild(profilePic);
     cardHolder.appendChild(namesAndFollowHolder);
+    cardHolder.appendChild(totalsHolder);
+    cardHolder.appendChild(chartContainer);
     cardHolder.appendChild(backBtn);
 
     //Other User Info
@@ -302,19 +416,3 @@ function loadSearchScreen(){
 
 loadSearchScreen();
 getGithubColors();
-
-// Base URL for all GitHub API requests
-
-// 1. Get all repositories for a user
-`${BASE_URL}/users/${username}/repos`
-
-// 2. Get language breakdown for a specific repo
-
-// 3. Get weekly commit activity (last year)
-`${BASE_URL}/repos/${owner}/${repo}/stats/commit_activity`
-
-// 4. Get contributor statistics
-`${BASE_URL}/repos/${owner}/${repo}/stats/contributors`
-
-// 5. Get recent public events for a user
-`${BASE_URL}/users/${username}/events/public`

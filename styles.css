@@ -249,3 +249,29 @@ body {
 .user-page-section:hover {
     border: 1px solid white;
 }
+
+.chart-container {
+    border: 1px solid red;
+    height: 20vh;
+    aspect-ratio: 1;
+}
+
+.totals-holder {
+    border: 1px solid white;
+    display: flex;
+    flex-direction: column;
+}
+
+.total-card {
+    height: 30%;
+    border: 1px solid red;
+    display: flex;
+}
+
+.total-logo {
+    height: 100%;
+    aspect-ratio: 1;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeatd;
+}
