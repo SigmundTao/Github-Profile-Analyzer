@@ -29,10 +29,9 @@ function getRelativeTime(dateString) {
 }
 
 function displayRecentActivity(repoData, holder) {
-    // Get top 5 most recently updated repos (MUCH SIMPLER)
     const activeRepos = repoData
         .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
-        .slice(0, 5);
+        .slice(0, 4);
     
     const activeRepoHolder = document.createElement('div');
     activeRepoHolder.classList.add('active-repo-holder');
@@ -417,10 +416,15 @@ function createUserPage(userData, repoData, languageData){
     cardHolder.classList.add('card-holder');
     cardHolder.classList.add('user-page-section');
 
+    const pictureAndBioHolder = document.createElement('div');
+    pictureAndBioHolder.classList.add('picture-and-bio-holder');
+
     const profilePic = document.createElement('div');
     profilePic.classList.add('profile-picture');
     profilePic.style.backgroundImage = `url(${userData.avatar_url})`;
     profilePic.addEventListener('click', () => {openPage(pageUrl)});
+
+    pictureAndBioHolder.appendChild(profilePic);
 
     if(userData.bio){
         const bio = document.createElement('div');
@@ -436,7 +440,7 @@ function createUserPage(userData, repoData, languageData){
 
         bio.appendChild(bioTitle);
         bio.appendChild(bioText);
-        cardHolder.appendChild(bio);
+        pictureAndBioHolder.appendChild(bio);
     }
 
     const username = document.createElement('div');
@@ -560,7 +564,7 @@ function createUserPage(userData, repoData, languageData){
 
     makePieChart(languageData, chartContainer);
 
-    cardHolder.appendChild(profilePic);
+    cardHolder.appendChild(pictureAndBioHolder);
     cardHolder.appendChild(namesAndFollowHolder);
     cardHolder.appendChild(totalsHolder);
     cardHolder.appendChild(chartContainer);
@@ -575,10 +579,11 @@ function createUserPage(userData, repoData, languageData){
 
     userPage.appendChild(cardHolder);
     //top repos
-    displayMostStaredRepos(repoData,userPage);
 
     //repo pages
     userPage.appendChild(cardHolder);
+    displayMostStaredRepos(repoData,userPage);
+
 
     const repoPages = document.createElement('div');
     repoPages.classList.add('repo-pages');
@@ -610,6 +615,7 @@ function loadSearchScreen(){
             fetchUser(searchBar.value);
         }
     })
+    searchBar.placeholder = '@SigmundTao'
 
     const searchBtn = document.createElement('button');
     searchBtn.classList.add('search-btn');

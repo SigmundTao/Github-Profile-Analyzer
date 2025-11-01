@@ -1,20 +1,42 @@
+/* ==================== ROOT VARIABLES ==================== */
 :root {
-    --primary: grey;
-    --secondary: black;
-    --section-background: #424242;
-
-    --section-border-radius: 25px;
-    --section-padding: 25px;
+    --primary: #1a1b26;
+    --secondary: #16161e;
+    --section-background: #24283b;
+    --card-background: #1f2335;
+    --accent: #7aa2f7;
+    --accent-hover: #89b4fa;
+    --text-primary: #c0caf5;
+    --text-secondary: #9aa5ce;
+    --text-muted: #565f89;
+    --border: #414868;
+    --success: #9ece6a;
+    --warning: #e0af68;
+    --gray: #565f89;
+    --dark-gray: #414868;
+    --section-border-radius: 16px;
+    --section-padding: 24px;
 }
 
+/* ==================== GLOBAL STYLES ==================== */
 * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    height: 100%;
+    overflow: hidden;
 }
 
 body {
-    height: 100vh;
-    width: 100vw;
+    height: 100%;
+    width: 100%;
     background-color: var(--secondary);
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+    overflow: hidden;
 }
 
 #main {
@@ -23,48 +45,178 @@ body {
     align-items: center;
     height: 100%;
     width: 100%;
+    padding: 0;
+    margin: 0;
 }
 
-.card-holder {
-    border: 1px solid red;
-    height: 50%;
+/* ==================== SEARCH PAGE ==================== */
+.search-page {
+    color: var(--text-primary);
+    width: 50vw;
+    height: 50vh;
     display: flex;
     flex-direction: column;
-    background-color: var(--section-background);
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.title {
+    font-size: 2.5rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.home-search-container {
+    display: flex;
+    width: 100%;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.search-bar {
+    width: 50vw;
+    height: 5vh;
+    border: 2px solid var(--border);
+    padding: 0 16px;
+    background-color: var(--card-background);
+    color: var(--text-primary);
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.search-bar:focus {
+    border-color: var(--accent);
+}
+
+.search-bar::placeholder {
+    color: var(--text-muted);
+}
+
+.search-btn {
+    border-radius: 0;
+    background-color: var(--accent);
+    border: 2px solid var(--accent);
+    color: white;
+    padding: 0 24px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.search-btn:hover {
+    background-color: var(--accent-hover);
+    cursor: pointer;
+    border-color: var(--accent-hover);
+    transform: translateY(-1px);
+}
+
+/* ==================== USER PAGE ==================== */
+.user-page {
+    height: 100vh;
+    width: 100vw;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background-color: var(--primary);
+    padding: 60px 0 40px 0;
+    position: relative;
+}
+
+.back-btn {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    height: 40px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background-color: var(--card-background);
+    border: 2px solid var(--border);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.back-btn:hover {
+    background-color: var(--accent);
+    border-color: var(--accent);
+    transform: scale(1.05);
+}
+
+/* ==================== USER CARD ==================== */
+.card-holder {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     padding: var(--section-padding);
+    width: 100%;
+    background-color: var(--section-background);
+}
+
+.picture-and-bio-holder {
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+    height: auto;
+    gap: 24px;
+    background-color: var(--card-background);
+    padding: 32px;
     border-radius: var(--section-border-radius);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
 .profile-picture {
-    height: 300px;
+    height: 200px;
     aspect-ratio: 1;
     border-radius: 50%;
     background-position: center;
     background-repeat: no-repeat;
-    background-size: contain;
-    border: 1px solid black;
+    background-size: cover;
+    border: 4px solid var(--accent);
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
 }
 
 .profile-picture:hover {
     cursor: pointer;
+    transform: scale(1.05);
+}
+
+.names-and-follow-holder {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
 }
 
 .names-holder {
-    height: 80%;
     display: flex;
     flex-direction: column;
-    align-items: baseline;
-    justify-content: flex-end;
+    gap: 8px;
+    margin-bottom: 16px;
 }
 
 .name {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    font-size: 1.2rem;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--text-primary);
 }
 
 .username {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
 }
 
 .username::before {
@@ -74,17 +226,42 @@ body {
 .username:hover {
     cursor: pointer;
     text-decoration: underline;
+    color: var(--accent);
 }
 
+/* ==================== BIO SECTION ==================== */
+.user-bio {
+    height: auto;
+    min-height: 80px;
+    background-color: var(--section-background);
+    color: var(--text-primary);
+    padding: 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
 
+.bio-title {
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
 
+.bio-text {
+    line-height: 1.6;
+    color: var(--text-primary);
+}
+
+/* ==================== FOLLOW DISPLAY ==================== */
 .follow-display {
     display: flex;
-    justify-content: space-between;
-    padding: 0 15px 0 15px;
+    justify-content: space-around;
+    padding: 16px;
+    background-color: var(--section-background);
+    border-radius: 8px;
+    margin-top: 16px;
 }
 
-.follow-display *{
+.follow-display * {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -92,83 +269,181 @@ body {
     text-align: center;
 }
 
-/* User Page */
-.user-page {
-    height: auto;
-    max-height: 90vh;
-    overflow-y: scroll;
+.followers-holder, .following-holder {
+    gap: 4px;
+}
+
+.followers-title, .following-title {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.followers, .following {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--accent);
+}
+
+/* ==================== TOTALS SECTION ==================== */
+.totals-holder {
     display: flex;
     flex-direction: column;
-    width: 90vw;
-    gap: 10px;
-
-    background-color: var(--primary);
+    gap: 12px;
     padding: var(--section-padding);
-}
-
-.back-btn {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    height: 40px;
-    aspect-ratio: 1;
-    border-radius: 50%;
-}
-
-/* Repo Section */
-.repo-card-holder {
-    border: 1px solid blue;
-    height: 50%;
     background-color: var(--section-background);
     border-radius: var(--section-border-radius);
-    padding: var(--section-padding);
-
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
+    margin: 0 16px;
 }
 
-.repo-card {
-    min-height: 150px;
-    background-color: var(--primary);
-    border-radius: 15px;
-    width: 49%;
-    padding: 15px;
-    -webkit-box-shadow: 8px 8px 24px 0px rgba(0, 0, 0, 1);
-    -moz-box-shadow: 8px 8px 24px 0px rgba(0, 0, 0, 1);
-    box-shadow: 8px 8px 24px 0px rgba(0, 0, 0, 1);
-}
-
-.repo-card:hover {
-    cursor: pointer;
-    transform: scale(1.05);
-    transition: all 0.2s ease;
-}
-
-.repo-title {
-    border: 1px solid black;
-    height: 30%;
+.total-card {
+    height: auto;
+    padding: 16px;
     display: flex;
     align-items: center;
-    font-size: 1.2rem;
-    font-weight: bold;
+    gap: 16px;
+    background-color: var(--card-background);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    transition: all 0.3s ease;
 }
 
-.repo-title:hover {
-    text-decoration: underline;
-    cursor: pointer;
+.total-card:hover {
+    border-color: var(--accent);
+    transform: translateX(4px);
 }
-/* new repo section */
+
+.total-logo {
+    height: 48px;
+    aspect-ratio: 1;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.total-title {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+}
+
+.date-title {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.date-logo {
+    opacity: 0.7;
+}
+
+/* ==================== CHART SECTION ==================== */
+.chart-container {
+    height: 300px;
+    max-width: 300px;
+    padding: 16px;
+    background-color: var(--card-background);
+    border-radius: var(--section-border-radius);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    margin: 0 auto;
+}
+
+#doughnut-graph {
+    width: 100%;
+    height: 100%;
+}
+
+/* ==================== RECENT ACTIVITY SECTION ==================== */
+.active-repo-holder {
+    padding: var(--section-padding);
+    background-color: var(--section-background);
+    border-radius: var(--section-border-radius);
+    margin: 0 16px;
+}
+
+/* ==================== TOP REPOS SECTION ==================== */
+.top-repos-section {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    padding: var(--section-padding);
+    gap: 16px;
+    margin: 0 16px;
+}
+
+.top-repos-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-align: center;
+}
+
+.top-repos-container {
+    height: auto;
+    min-height: 300px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.top-repo-card {
+    height: auto;
+    min-height: 250px;
+    width: calc(33.333% - 12px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    border-radius: var(--section-border-radius);
+    background-color: var(--card-background);
+    border: 2px solid var(--border);
+    padding: 24px;
+    transition: all 0.3s ease;
+}
+
+.top-repo-card:hover {
+    cursor: pointer;
+    border-color: var(--accent);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(122, 162, 247, 0.2);
+}
+
+.top-repo-card:hover .top-repo-name {
+    text-decoration: underline;
+    color: var(--accent);
+}
+
+.repo-trophy {
+    height: 80px;
+    aspect-ratio: 1;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.top-repo-name {
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* ==================== REPO PAGES SECTION ==================== */
 .repo-pages {
-    border: 1px solid green;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 50vh;
+    height: auto;
+    min-height: 400px;
+    padding: var(--section-padding);
+    margin: 0 16px;
 }
 
 .repo-holder {
-    width: 80%;
+    width: 70%;
     height: 100%;
     display: flex;
     flex-direction: row;
@@ -176,167 +451,164 @@ body {
     align-items: center;
     flex-wrap: wrap;
     padding: 15px;
-    gap: 5px;
+    gap: 12px;
+}
+
+.last-page-btn-holder, .next-page-btn-holder {
+    height: 100%;
+    width: 15%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.last-page-btn, .page-btn, .next-page-btn {
+    padding: 12px 20px;
+    background-color: var(--card-background);
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.last-page-btn:hover, .page-btn:hover, .next-page-btn:hover {
+    background-color: var(--accent);
+    border-color: var(--accent);
+    transform: scale(1.05);
+}
+
+/* ==================== REPO CARDS ==================== */
+.repo-card-holder {
+    height: auto;
+    background-color: var(--section-background);
+    border-radius: var(--section-border-radius);
+    padding: var(--section-padding);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin: 0 16px;
+}
+
+.repo-card {
+    min-height: 180px;
+    background-color: var(--card-background);
+    border-radius: 12px;
+    width: calc(50% - 8px);
+    padding: 20px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border);
+    transition: all 0.3s ease;
+}
+
+.repo-card:hover {
+    cursor: pointer;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(122, 162, 247, 0.15);
+    border-color: var(--accent);
 }
 
 .repo {
-    width: 45%;
-    height: 30%;
-    border: 1px solid yellow;
-    border-radius: 10px;
-}
-
-.last-page-btn-holder {
-    height: 100%;
-    width: 10%;
-    border: 1px solid red;
+    width: 100%;
+    height: auto;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    gap: 12px;
 }
 
-.next-page-btn-holder {
-    height: 100%;
-    width: 10%;
-    border: 1px solid red;
+.repo-title {
+    height: auto;
     display: flex;
-    justify-content: center;
     align-items: center;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--text-primary);
 }
 
+.repo-title:hover {
+    text-decoration: underline;
+    cursor: pointer;
+    color: var(--accent);
+}
+
+.repo-date {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+/* ==================== REPO DETAILS ==================== */
 .language-holder {
-    width: 50%;
-    height: 15%;
+    width: auto;
+    height: auto;
     display: flex;
-    gap: 3px;
-    border: 1px solid red;
+    gap: 8px;
+    align-items: center;
+}
+
+.repo-language {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
 }
 
 .color-circle {
-    height: 100%;
+    height: 12px;
     aspect-ratio: 1;
     border-radius: 50%;
 }
 
 .repo-stars {
-    height: 15%;
-    border: 1px solid blue;
-    width: 50%;
+    height: auto;
+    width: auto;
     display: flex;
-    gap:  3px;
+    gap: 6px;
+    align-items: center;
+    color: var(--warning);
 }
 
 .star-logo {
-    height: 100%;
+    height: 16px;
     aspect-ratio: 1;
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
 }
 
-/* Search Screen */
-.search-page {
-    color: white;
-    background-color: var(--primary);
-    width: 50vw;
-    height: 50vh;
-    border: 1px solid white;
+.repo-forks {
+    height: auto;
+    width: auto;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    gap: 6px;
     align-items: center;
+    color: var(--text-secondary);
 }
 
-.user-page-section:hover {
-    border: 1px solid white;
-}
-
-.chart-container {
-    border: 1px solid red;
-    height: 20vh;
-    aspect-ratio: 1;
-}
-
-.totals-holder {
-    border: 1px solid white;
-    display: flex;
-    flex-direction: column;
-}
-
-.total-card {
-    height: 30%;
-    border: 1px solid red;
-    display: flex;
-}
-
-.total-logo {
-    height: 100%;
-    aspect-ratio: 1;
-    background-position: center;
-    background-size: contain;
-    background-repeat: no-repeatd;
+.fork-title {
+    font-size: 0.9rem;
 }
 
 .repo-fork-logo {
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
-    height: 100%;
+    height: 16px;
     aspect-ratio: 1;
 }
 
-.repo-forks {
-    height: 15%;
-    border: 1px solid pink;
-    width: 50%;
-    display: flex;
+/* ==================== SCROLLBAR STYLING ==================== */
+.user-page::-webkit-scrollbar {
+    width: 12px;
 }
 
-/* top repos */
-.top-repos-section {
-    height: 50vh;
-    display: flex;
-    flex-direction: column;
-    border: 1px solid blue;
+.user-page::-webkit-scrollbar-track {
+    background: var(--secondary);
 }
 
-.top-repos-container {
-    height: 50vh;
-    border: 1px solid black;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+.user-page::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 6px;
 }
 
-.top-repo-card {
-    height: 70%;
-    width: 30%;
-    border: 1px solid red;
-    display: flex;
-    flex-direction: column;
-    border-radius: 15px;
-}
-
-.top-repo-card:hover {
-    cursor: pointer;
-}
-
-.top-repo-card:hover .top-repo-name {
-    text-decoration: underline;
-}
-
-.repo-trophy {
-    height: 50%;
-    aspect-ratio: 1;
-    background-position: center;
-    background-size: contain;
-    background-repeat: no-repeat;
-    border: 1px solid green;
-}
-
-.top-repo-name {
-    border: 1px solid white;
-    text-align: center;
-    font-size: 1.5rem;
+.user-page::-webkit-scrollbar-thumb:hover {
+    background: var(--accent);
 }
