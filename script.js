@@ -33,6 +33,67 @@ function formatRepoData(data){
     return newData;
 }
 
+function displayMostStaredRepos(repoData, holder){
+    const container = document.createElement('div');
+    container.classList.add('top-repos-section');
+
+    const title = document.createElement('div');
+    title.classList.add('top-repos-title');
+    title.innerText = 'Top Repos:'
+
+    const reposContainer = document.createElement('div');
+    reposContainer.classList.add('top-repos-container');
+
+    const topRepos = [];
+
+    repoData.forEach(repo => {
+        checkIfMoreStars(repo, topRepos);
+    })
+
+    topRepos.sort((a, b) => b.stargazers_count - a.stargazers_count);
+
+    for(let i = 0; i < topRepos.length; i++){
+        const topRepoCard = document.createElement('div');
+        topRepoCard.classList.add('top-repo-card');
+
+        const repoTrophy = document.createElement('div');
+        repoTrophy.classList.add('repo-trophy');
+        repoTrophy.style.backgroundImage = `url('./trophy-${i + 1}.svg')`;
+
+        const repoName = document.createElement('div');
+        repoName.classList.add('top-repo-name');
+        repoName.innerText = topRepos[i].name;
+
+        const repoLink = topRepos[i].html_url;
+
+        topRepoCard.addEventListener('click', () => {openPage(repoLink)});
+
+        topRepoCard.appendChild(repoTrophy);
+        topRepoCard.appendChild(repoName);
+
+        reposContainer.appendChild(topRepoCard);
+    }
+    container.appendChild(title);
+    container.appendChild(reposContainer);
+
+    holder.appendChild(container);
+}
+
+function checkIfMoreStars(newObj, array){
+    if(array.length < 3){
+        array.push(newObj);
+    } else {
+        array.forEach(item => {
+            const itemIndex = array.findIndex(i => i === item);
+            if(newObj.stargazers_count > item.stargazers_count){
+                array.splice(itemIndex, 1);
+                array.push(newObj);
+            }
+        })
+    }
+    
+}
+
 function makePieChart(languageData, chartContainer){
     const labels = Object.keys(languageData);
     const values = Object.values(languageData);
@@ -258,6 +319,23 @@ function createUserPage(userData, repoData, languageData){
     profilePic.style.backgroundImage = `url(${userData.avatar_url})`;
     profilePic.addEventListener('click', () => {openPage(pageUrl)});
 
+    if(userData.bio){
+        const bio = document.createElement('div');
+        bio.classList.add('user-bio');
+
+        const bioText = document.createElement('div');
+        bioText.classList.add('bio-text');
+        bioText.innerText = userData.bio;
+
+        const bioTitle = document.createElement('div');
+        bioTitle.classList.add('bio-title');
+        bioTitle.innerText = 'Bio:';
+
+        bio.appendChild(bioTitle);
+        bio.appendChild(bioText);
+        cardHolder.appendChild(bio);
+    }
+
     const username = document.createElement('div');
     username.classList.add('username');
     username.innerText = userData.login;
@@ -320,6 +398,20 @@ function createUserPage(userData, repoData, languageData){
     const totalsHolder = document.createElement('div');
     totalsHolder.classList.add('totals-holder');
 
+    const createdDate = changeDateFormat(userData.created_at);
+    const dateTitle = document.createElement('div');
+    dateTitle.classList.add('date-title');
+    dateTitle.innerText = createdDate;
+    const dateHolder = document.createElement('div');
+    const dateLogo = document.createElement('div');
+    dateLogo.classList.add('date-logo');
+    dateLogo.style.backgroundImage = `url('./date.svg')`;
+
+    dateHolder.appendChild(dateLogo);
+    dateHolder.appendChild(dateTitle);
+
+    totalsHolder.appendChild(dateHolder);
+
     const totals = [];
 
     const totalRepos = userData.public_repos;
@@ -353,6 +445,8 @@ function createUserPage(userData, repoData, languageData){
         totalsHolder.appendChild(itemCard)
     })
 
+    
+
     const backBtn = document.createElement('button');
     backBtn.classList.add('back-btn');
     backBtn.addEventListener('click', loadSearchScreen);
@@ -371,15 +465,16 @@ function createUserPage(userData, repoData, languageData){
 
     //Other User Info
     const XUsername = userData.twitter_username;
-    const accountCreationDate = userData.created_at;
     const hireable = userData.hireable;
     const blog = userData.blog;
     const isSiteAdmin = userData.site_admin;
     const company = userData.company;
 
     userPage.appendChild(cardHolder);
+    //top repos
+    displayMostStaredRepos(repoData,userPage);
 
-    //repos
+    //repo pages
     userPage.appendChild(cardHolder);
 
     const repoPages = document.createElement('div');
