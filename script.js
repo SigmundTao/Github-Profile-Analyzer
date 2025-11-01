@@ -53,7 +53,7 @@ function makePieChart(languageData, chartContainer){
                 label: 'Repositories',
                 data: values,
                 backgroundColor: backgroundColors,
-                borderWidth: 2,
+                borderWidth: 0,
                 borderColor: '#fff'
             }]
         },
@@ -176,10 +176,25 @@ function createRepoPages(repoData, index, container){
         repoStars.appendChild(starLogo);
         repoStars.appendChild(starCount);
 
+        const repoForks = document.createElement('div');
+        repoForks.classList.add('repo-forks');
+
+        const forkTitle = document.createElement('div');
+        forkTitle.classList.add('fork-title');
+        forkTitle.innerText = object.forks
+
+        const forkLogo = document.createElement('div');
+        forkLogo.classList.add('repo-fork-logo');
+        forkLogo.style.backgroundImage = `url('./fork.svg')`;
+
+        repoForks.appendChild(forkLogo);
+        repoForks.appendChild(forkTitle);
+
         repo.appendChild(repoTitle);
         repo.appendChild(repoDate);
         repo.appendChild(languageHolder);
         repo.appendChild(repoStars);
+        repo.appendChild(repoForks);
 
         repoHolder.appendChild(repo);
     }
