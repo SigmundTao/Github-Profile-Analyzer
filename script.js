@@ -14,6 +14,109 @@ async function getGithubColors() {
     console.log('colors var:',colors);
 }
 
+function getRelativeTime(dateString) {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffMs = now - date;
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    
+    if (diffDays === 0) return 'today';
+    if (diffDays === 1) return '1 day ago';
+    if (diffDays < 7) return `${diffDays} days ago`;
+    if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
+    if (diffDays < 365) return `${Math.floor(diffDays / 30)} months ago`;
+    return `${Math.floor(diffDays / 365)} years ago`;
+}
+
+function displayRecentActivity(repoData, holder) {
+    // Get top 5 most recently updated repos (MUCH SIMPLER)
+    const activeRepos = repoData
+        .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
+        .slice(0, 5);
+    
+    const activeRepoHolder = document.createElement('div');
+    activeRepoHolder.classList.add('active-repo-holder');
+    
+    const title = document.createElement('h3');
+    title.innerText = '🔥 Recently Active';
+    activeRepoHolder.appendChild(title);
+    
+    activeRepos.forEach(repo => {
+        const activeRepoCard = document.createElement('div');
+        activeRepoCard.classList.add('repo');
+        
+        activeRepoCard.addEventListener('click', () => {
+            openPage(repo.html_url);
+        });
+        
+        const activeRepoTitle = document.createElement('div');
+        activeRepoTitle.classList.add('repo-title');
+        activeRepoTitle.innerText = repo.name;
+        
+        // USE updated_at, not created_at (and show relative time)
+        const repoDate = document.createElement('div');
+        repoDate.classList.add('repo-date');
+        repoDate.innerText = `Updated ${getRelativeTime(repo.updated_at)}`;
+        
+        const repoLanguage = document.createElement('div');
+        repoLanguage.classList.add('repo-language');
+        const language = repo.language || null;
+        repoLanguage.innerText = language;
+        
+        const colorCircle = document.createElement('div');
+        colorCircle.classList.add('color-circle');
+        colorCircle.id = repo.id; // FIX: was 'object.id'
+        
+        if (language && colors[language]) {
+            colorCircle.style.backgroundColor = colors[language].color;
+        } else {
+            colorCircle.style.display = 'none';
+        }
+        
+        const languageHolder = document.createElement('div');
+        languageHolder.classList.add('language-holder');
+        languageHolder.appendChild(colorCircle);
+        languageHolder.appendChild(repoLanguage);
+        
+        const repoStars = document.createElement('div');
+        repoStars.classList.add('repo-stars');
+        
+        const starCount = document.createElement('div');
+        starCount.innerText = repo.stargazers_count;
+        
+        const starLogo = document.createElement('div');
+        starLogo.style.backgroundImage = `url('./star.svg')`;
+        starLogo.classList.add('star-logo');
+        
+        repoStars.appendChild(starLogo);
+        repoStars.appendChild(starCount);
+        
+        const repoForks = document.createElement('div');
+        repoForks.classList.add('repo-forks');
+        
+        const forkTitle = document.createElement('div');
+        forkTitle.classList.add('fork-title');
+        forkTitle.innerText = repo.forks; // FIX: was 'object.forks'
+        
+        const forkLogo = document.createElement('div');
+        forkLogo.classList.add('repo-fork-logo');
+        forkLogo.style.backgroundImage = `url('./fork.svg')`;
+        
+        repoForks.appendChild(forkLogo);
+        repoForks.appendChild(forkTitle);
+        
+        activeRepoCard.appendChild(activeRepoTitle);
+        activeRepoCard.appendChild(repoDate);
+        activeRepoCard.appendChild(languageHolder);
+        activeRepoCard.appendChild(repoStars);
+        activeRepoCard.appendChild(repoForks);
+        
+        activeRepoHolder.appendChild(activeRepoCard);
+    });
+    
+    holder.appendChild(activeRepoHolder);
+}
+
 function formatRepoData(data){
     const newData = {};
     data.forEach(e => {
@@ -480,6 +583,9 @@ function createUserPage(userData, repoData, languageData){
     const repoPages = document.createElement('div');
     repoPages.classList.add('repo-pages');
     createRepoPages(repoData, repoIndex, repoPages);
+
+    //recent activity
+    displayRecentActivity(repoData, userPage);
 
     userPage.appendChild(repoPages);
 
