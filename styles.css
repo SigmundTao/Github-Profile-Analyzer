@@ -155,8 +155,9 @@ body {
     height: auto;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start;
+    gap: 0;
+    align-items: baseline;
     padding: var(--section-padding);
     width: 100%;
     background-color: var(--section-background);
@@ -168,10 +169,7 @@ body {
     max-width: 1200px;
     height: auto;
     gap: 24px;
-    background-color: var(--card-background);
     padding: 32px;
-    border-radius: var(--section-border-radius);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
 .profile-picture {
@@ -201,8 +199,8 @@ body {
 .names-holder {
     display: flex;
     flex-direction: column;
-    gap: 8px;
     margin-bottom: 16px;
+    width: 100vw;
 }
 
 .name {
@@ -233,11 +231,12 @@ body {
 .user-bio {
     height: auto;
     min-height: 80px;
-    background-color: var(--section-background);
+    background-color: var(--card-background);
     color: var(--text-primary);
     padding: 16px;
     border-radius: 8px;
     border: 1px solid var(--border);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
 .bio-title {
@@ -254,7 +253,8 @@ body {
 /* ==================== FOLLOW DISPLAY ==================== */
 .follow-display {
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-start;
+    gap: 15px;
     padding: 16px;
     background-color: var(--section-background);
     border-radius: 8px;
@@ -289,7 +289,7 @@ body {
 /* ==================== TOTALS SECTION ==================== */
 .totals-holder {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 12px;
     padding: var(--section-padding);
     background-color: var(--section-background);
@@ -593,22 +593,4 @@ body {
     background-repeat: no-repeat;
     height: 16px;
     aspect-ratio: 1;
-}
-
-/* ==================== SCROLLBAR STYLING ==================== */
-.user-page::-webkit-scrollbar {
-    width: 12px;
-}
-
-.user-page::-webkit-scrollbar-track {
-    background: var(--secondary);
-}
-
-.user-page::-webkit-scrollbar-thumb {
-    background: var(--border);
-    border-radius: 6px;
-}
-
-.user-page::-webkit-scrollbar-thumb:hover {
-    background: var(--accent);
 }
