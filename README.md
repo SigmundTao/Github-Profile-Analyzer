@@ -51,7 +51,7 @@ A comprehensive GitHub profile analysis tool that provides detailed insights int
 
 ## 🚀 Live Demo
 
-[View Live Demo](#) *(Add your GitHub Pages URL here)*
+[View Live Demo](https://sigmundtao.github.io/Github-Profile-Analyzer/)
 
 ## 💻 Installation & Usage
 
