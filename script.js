@@ -33,12 +33,16 @@ function displayRecentActivity(repoData, holder) {
         .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
         .slice(0, 4);
     
-    const activeRepoHolder = document.createElement('div');
-    activeRepoHolder.classList.add('active-repo-holder');
+    const activeRepoSection = document.createElement('div');
+    activeRepoSection.classList.add('active-repo-section');
     
     const title = document.createElement('h3');
     title.innerText = '🔥 Recently Active';
-    activeRepoHolder.appendChild(title);
+    title.classList.add('active-title');
+    activeRepoSection.appendChild(title);
+
+    const activeRepoHolder = document.createElement('div');
+    activeRepoHolder.classList.add('active-repo-holder');
     
     activeRepos.forEach(repo => {
         const activeRepoCard = document.createElement('div');
@@ -112,8 +116,9 @@ function displayRecentActivity(repoData, holder) {
         
         activeRepoHolder.appendChild(activeRepoCard);
     });
+    activeRepoSection.appendChild(activeRepoHolder);
     
-    holder.appendChild(activeRepoHolder);
+    holder.appendChild(activeRepoSection);
 }
 
 function formatRepoData(data){
@@ -416,6 +421,9 @@ function createUserPage(userData, repoData, languageData){
     cardHolder.classList.add('card-holder');
     cardHolder.classList.add('user-page-section');
 
+    const profileHolder = document.createElement('div');
+    profileHolder.classList.add('profile-holder');
+
     const pictureAndBioHolder = document.createElement('div');
     pictureAndBioHolder.classList.add('picture-and-bio-holder');
 
@@ -510,6 +518,7 @@ function createUserPage(userData, repoData, languageData){
     dateTitle.classList.add('date-title');
     dateTitle.innerText = createdDate;
     const dateHolder = document.createElement('div');
+    dateHolder.classList.add('total-card');
     const dateLogo = document.createElement('div');
     dateLogo.classList.add('date-logo');
     dateLogo.style.backgroundImage = `url('./date.svg')`;
@@ -564,9 +573,10 @@ function createUserPage(userData, repoData, languageData){
 
     makePieChart(languageData, chartContainer);
 
-    cardHolder.appendChild(pictureAndBioHolder);
-    cardHolder.appendChild(namesAndFollowHolder);
-    cardHolder.appendChild(totalsHolder);
+    profileHolder.appendChild(pictureAndBioHolder);
+    profileHolder.appendChild(namesAndFollowHolder);
+    profileHolder.appendChild(totalsHolder);
+    cardHolder.appendChild(profileHolder)
     cardHolder.appendChild(chartContainer);
     cardHolder.appendChild(backBtn);
 
