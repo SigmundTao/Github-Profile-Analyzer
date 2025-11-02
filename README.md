@@ -111,7 +111,6 @@ This is a pure vanilla JavaScript application - no npm install, no bundlers, no 
 ### Repository Insights
 - Top 3 most starred projects (gold, silver, bronze trophies)
 - Recent activity tracking (last 5 updated repos)
-- Health status indicators (active/maintained/archived)
 - Comprehensive pagination for all repositories
 
 ### User Statistics
@@ -120,36 +119,6 @@ This is a pure vanilla JavaScript application - no npm install, no bundlers, no 
 - Aggregate fork count
 - Follower and following counts
 - Account age calculation
-
-## 🔮 Future Enhancements
-
-- Contribution graph visualization
-- Commit frequency analysis
-- Collaboration network mapping
-- Export data as JSON/CSV
-- Compare multiple GitHub profiles
-- Dark/light theme toggle
-- Responsive mobile optimization
-
-## 📝 Project Structure
-```
-github-profile-analyzer/
-├── index.html          # Main HTML file
-├── style.css           # Styling and layout
-├── app.js              # Core application logic
-├── README.md           # Project documentation
-└── screenshots/        # Application screenshots
-    ├── profile-overview.png
-    ├── recent-activity.png
-    └── repo-list.png
-```
-
-## 🤝 Contributing
-
-Contributions are welcome! Feel free to:
-- Report bugs
-- Suggest new features
-- Submit pull requests
 
 ## 📄 License
 
@@ -163,7 +132,7 @@ This project is open source and available under the MIT License.
 
 ## 👨‍💻 Author
 
-**[Your Name]** - [GitHub](https://github.com/SigmundTao)
+**Tao Simon** - [GitHub](https://github.com/SigmundTao)
 
 ---
 
