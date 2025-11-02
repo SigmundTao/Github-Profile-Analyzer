@@ -10,8 +10,6 @@ async function getGithubColors() {
     const colorData = await response.json();
 
     colors = colorData;
-    console.log('colors-data:',colorData);
-    console.log('colors var:',colors);
 }
 
 function getRelativeTime(dateString) {
@@ -136,7 +134,6 @@ function formatRepoData(data){
         
     });
 
-    console.log(newData);
     return newData;
 }
 
@@ -396,8 +393,6 @@ async function fetchUser(username){
 
         const languageData = formatRepoData(repoData);
 
-        console.log('user data:', userData);
-        console.log('repo data:', repoData);
 
         createUserPage(userData, repoData, languageData);
     } catch (error){
@@ -579,13 +574,6 @@ function createUserPage(userData, repoData, languageData){
     cardHolder.appendChild(profileHolder)
     cardHolder.appendChild(chartContainer);
     cardHolder.appendChild(backBtn);
-
-    //Other User Info
-    const XUsername = userData.twitter_username;
-    const hireable = userData.hireable;
-    const blog = userData.blog;
-    const isSiteAdmin = userData.site_admin;
-    const company = userData.company;
 
     userPage.appendChild(cardHolder);
     //top repos
