@@ -375,10 +375,12 @@ body {
     padding: var(--section-padding);
     background-color: var(--section-background);
     border-radius: var(--section-border-radius);
-    margin: 0 16px;
+    margin: 0;
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     gap: 15px;
     padding-bottom: 50px;
 }
@@ -388,6 +390,7 @@ body {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
+    width: 80%;
     align-items: center;
     gap: 15px;
 }
@@ -520,17 +523,8 @@ body {
 }
 
 /* ==================== REPO CARDS ==================== */
-.repo-card-holder {
-    height: auto;
-    background-color: var(--section-background);
-    border-radius: var(--section-border-radius);
-    padding: var(--section-padding);
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 16px;
-    margin: 0 16px;
-    padding: 15px;
+.repo-holder .repo {
+    height: 30%;
 }
 
 .repo-card {
