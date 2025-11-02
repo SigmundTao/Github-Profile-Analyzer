@@ -33,15 +33,20 @@ A comprehensive GitHub profile analysis tool that provides detailed insights int
 ## 📸 Screenshots
 
 ### Profile Overview & Language Distribution
-![Profile Overview](./screenshots/profile-overview.png)
+![Profile Overview]
+
+
+<img width="1821" height="893" alt="2025-11-02_17-12" src="https://github.com/user-attachments/assets/eca5d9fe-75c5-4194-a3b9-231b3f36b5c7" />
 *Comprehensive user profile with bio, stats, and language breakdown chart*
 
 ### Recently Active Repositories
-![Recent Activity](./screenshots/recent-activity.png)
+![Recent Activity]
+<img width="1498" height="474" alt="2025-11-02_17-13" src="https://github.com/user-attachments/assets/5187c660-7561-4b02-a1bb-2a2e4c095454" />
 *Track the most recently updated projects*
 
 ### Full Repository List
-![Repository Browser](./screenshots/repo-list.png)
+![Repository Browser]
+<img width="1769" height="691" alt="2025-11-02_17-13_1" src="https://github.com/user-attachments/assets/9b5ff8e1-1ae0-4637-be79-888eb50de71d" />
 *Browse all repositories with pagination*
 
 ## 🚀 Live Demo
